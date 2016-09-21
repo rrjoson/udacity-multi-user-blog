@@ -52,10 +52,14 @@ class BlogHandler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
-class MainHandler(webapp2.RequestHandler):
+
+class MainHandler(BlogHandler):
 
     def get(self):
-        self.response.write('Hello world!')
+        self.render('base.html')
+
+
+# Routing
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
