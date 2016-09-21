@@ -12,27 +12,29 @@
 	<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-	<nav class="navigation">
-		<div class="container">
-			<a href="/" class="navigation__title">
-				<img class="title__image" src="/static/images/compose.svg" alt="">
-				<h1 class="title__text">Udacity Blog</h1>
-			</a>
-			<ul class="navigation__list">
-				<li class="list__item">
-					<a href="/signup" class="list__item__link">Signup</a>
-				</li>
-				<li class="list__item">
-					<a href="" class="list__item__link">Login</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
-	<section class="content">
-		<div class="container">
-			{% block content %}
-			{% endblock %}
-		</div>
-	</section>
+	<div class="wrapper">
+		<nav class="navigation">
+			<div class="container">
+				<a href="/" class="navigation__title">
+					<img class="title__image" src="/static/images/compose.svg" alt="">
+					<h1 class="title__text">Udacity Blog</h1>
+				</a>
+				<ul class="navigation__list">
+					<li class="list__item">
+						<a href="/signup" class="list__item__link">Signup</a>
+					</li>
+					<li class="list__item">
+						<a href="" class="list__item__link">Login</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<section class="content">
+			<div class="container">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</section>
+	</div>
 </body>
 </html>
