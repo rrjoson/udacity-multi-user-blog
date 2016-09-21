@@ -14,7 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import os
+import re
+import random
+import hmac
+import hashlib
 import webapp2
+import jinja2
+
+from string import letters
+from google.appengine.ext import db
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
