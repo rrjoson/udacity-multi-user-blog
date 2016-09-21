@@ -63,10 +63,16 @@ class SignupHandler(BlogHandler):
     def get(self):
         self.render('signup.html')
 
+class LoginHandler(BlogHandler):
+
+    def get(self):
+        self.render('login.html')
+
 
 # Routing
 
 app = webapp2.WSGIApplication([
     ('/', BlogFrontHandler),
-    ('/signup', SignupHandler)
+    ('/signup', SignupHandler),
+    ('/login', LoginHandler),
 ], debug=True)
