@@ -48,5 +48,10 @@
 	text-decoration: none;
 }
 
+.content {
+	padding-top: 7.5rem;
+	padding-bottom: 7.5rem;
+}
+
 /* Helpers */
 
