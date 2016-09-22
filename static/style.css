@@ -149,7 +149,7 @@
 }
 
 
-/* Helpers */
+/* New post page */
 
 .newpost {
 
@@ -186,6 +186,47 @@
 }
 
 .newpost .form__message {
+    font-weight: 300;
+    margin-left: 1rem;
+}
+
+/* Edit post page */
+
+.editpost {
+
+}
+
+.editpost__form {
+
+}
+
+.editpost .form__input {
+	font-size: 4rem;
+	font-weight: 700;
+	border: none;
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	padding-left: 0;
+	margin-bottom: 0;
+}
+
+.editpost .form__textarea {
+	min-height: 50rem;
+	border: none;
+	padding-left: 0;
+	font-size: 2.1rem;
+}
+
+.editpost .form__input:focus,
+.editpost .form__textarea:focus {
+	border: none;
+}
+
+.editpost .form__submit {
+
+}
+
+.editpost .form__message {
     font-weight: 300;
     margin-left: 1rem;
 }

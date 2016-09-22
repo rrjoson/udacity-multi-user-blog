@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+    <div class="editpost">
+        <div class="editpost__form">
+            <form method="post" autocomplete="off">
+                <input autofocus class="form__input" placeholder="Title" type="text" name="subject" value="{{subject}}">
+                <textarea class="form__textarea" placeholder="Tell your story..." type="text" name="content">{{content}}</textarea>
+                <input class="button-outline form__submit" type="submit" value="save">
+                <span class="form__message">{{error}}</span>
+            </form>
+        </div>
+    </div>
+
+  
+{% endblock %}
