@@ -9,5 +9,21 @@
 		{{ post.render(None) | safe }}
 	{% endif %}
 
+	{% if user and user.key().id() == post.user_id %}
+		<a href="/delete/{{post.key().id()}}/{{post.user_id}}">
+			<button class="button-outline">Delete</button>
+		</a>
+		<a href="/{{post.key().id()}}/edit">
+			<button class="button-outline">Edit</button>
+		</a>
+	{% elif user %}
+		<a href="/{{post.key().id()}}/like">
+			<button class="button-outline">Like</button>
+		</a>
+		<a href="/{{post.key().id()}}/unlike">
+			<button class="button-outline">Unlike</button>
+		</a>
+	{% endif %}
+
   
 {% endblock %}

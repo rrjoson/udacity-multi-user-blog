@@ -139,6 +139,12 @@ class Post(db.Model):
     def by_id(cls, uid):
         return Post.get_by_id(uid, parent=blog_key())
 
+class Like(db.Model):
+    created = db.DateTimeProperty(auto_now_add=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
+    user_id = db.IntegerProperty(required=True)
+    post_id = db.IntegerProperty(required=True)
+
 class Comment(db.Model):
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
@@ -188,7 +194,7 @@ class BlogFrontHandler(BlogHandler):
     def get(self):
         posts = db.GqlQuery(
             "select * from Post order by created desc limit 10")
-        
+
         self.render('front.html', posts=posts)
 
 class SignupHandler(BlogHandler):
@@ -300,6 +306,35 @@ class PostHandler(BlogHandler):
 
         self.render("permalink.html", post=post, comments=comments)
 
+class LikePostHandler(BlogHandler):
+
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        post = db.get(key)
+
+        if self.user and self.user.key().id() == post.user_id:
+            self.write("You cannot like your own post")
+        elif not self.user:
+            self.redirect('/login')
+        else:
+            l = Like.all().filter('user_id =', 
+                self.user.key().id()).filter('post_id =', post.key().id()).get()
+
+            if l:
+                self.redirect('/' + str(post.key().id()))
+
+            else:
+                like = Like(parent=key, 
+                            user_id=self.user.key().id(),
+                            post_id=post.key().id())
+
+                post.likes += 1
+
+                like.put()
+                post.put()
+
+                self.redirect('/' + str(post.key().id()))
+
 
 # Routing
 
@@ -310,4 +345,5 @@ app = webapp2.WSGIApplication([
     ('/logout', LogoutHandler),
     ('/newpost', NewPostHandler),
     ('/([0-9]+)', PostHandler),
+    ('/([0-9]+)/like', LikePostHandler)
 ], debug=True)
