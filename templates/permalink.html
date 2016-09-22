@@ -25,5 +25,38 @@
 		</a>
 	{% endif %}
 
+	{% for c in comments %}
+		<div class="comment">
+		    <div class="comment__meta">
+		        <div class="meta__author">
+		            <img class="meta__author__image" src="/static/images/compose.svg" alt="">
+		        </div>
+		        <div class="meta__comment">
+		            <div class="meta__comment__author">{{c.user_id}}</div>
+		            <div class="meta__comment__date">{{c.created.strftime("%b %d, %Y")}}</div>
+		        </div>
+		    </div>
+		    <p class="comment__content">
+		        {{ c.content }}
+		    </p>
+		</div>
+
+		{% if user %}
+			<a href="/{{post.key().id()}}/{{c.user_id}}/{{ c.key().id() }}/deletecomment">
+				<button class="button-outline">Delete</button>
+			</a>
+			<a href="/{{post.key().id()}}/{{c.user_id}}/{{ c.key().id() }}/editcomment">
+				<button class="button-outline">Edit</button>
+			</a>
+		{% endif %}
+
+	{% endfor %}
+
+	{% if user %}
+		<a href="/{{post.key().id()}}/addcomment/{{user.key().id()}}">
+			<button class="button-outline">Add Comment</button>
+		</a>
+	{% endif %}
+
   
 {% endblock %}

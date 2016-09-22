@@ -268,6 +268,21 @@ class LogoutHandler(BlogHandler):
         self.logout()
         self.redirect('/')
 
+class PostHandler(BlogHandler):
+
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        post = db.get(key)
+
+        comments = db.GqlQuery(
+            "select * from Comment where ancestor is :1 order by created desc limit 10", key)
+
+        if not post:
+            self.error(404)
+            return
+
+        self.render("permalink.html", post=post, comments=comments)
+
 class NewPostHandler(BlogHandler):
 
     def get(self):
@@ -342,21 +357,6 @@ class DeletePostHandler(BlogHandler):
         else:
             self.write("You don't have permission to delete this post")
 
-class PostHandler(BlogHandler):
-
-    def get(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-
-        comments = db.GqlQuery(
-            "select * from Comment where ancestor is :1 order by created desc limit 10", key)
-
-        if not post:
-            self.error(404)
-            return
-
-        self.render("permalink.html", post=post, comments=comments)
-
 class LikePostHandler(BlogHandler):
 
     def get(self, post_id):
@@ -413,6 +413,21 @@ class UnlikePostHandler(BlogHandler):
             else:
                 self.redirect('/' + str(post.key().id()))
 
+class AddCommentHandler(BlogHandler):
+
+    def get(self, post_id, user_id):
+        self.render("addcomment.html")
+
+    def post(self, post_id, user_id):
+        content = self.request.get('content')
+
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+
+        c = Comment(parent=key, user_id=int(user_id), content=content)
+        c.put()
+
+        self.redirect('/' + post_id)
+
 
 # Routing
 
@@ -427,4 +442,5 @@ app = webapp2.WSGIApplication([
     ('/([0-9]+)/unlike', UnlikePostHandler),
     ('/([0-9]+)/edit', EditPostHandler),
     ('/([0-9]+)/delete/([0-9]+)', DeletePostHandler),
+    ('/([0-9]+)/addcomment/([0-9]+)', AddCommentHandler)
 ], debug=True)

@@ -297,5 +297,48 @@
 }
 
 
+/* Comment template */
+
+.comment {
+
+}
+
+.comment__meta {
+	margin-bottom: 2rem;
+}
+
+.comment .meta__author {
+	width: 5rem;
+	height: 5rem;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.comment .meta__author__image {
+	width: auto;
+	height: 100%;
+}
+
+.comment .meta__comment {
+	vertical-align: middle;
+	display: inline-block;
+	padding-left: 1.5rem;
+}
+
+.comment .meta__comment__author {
+	font-weight: 700;
+	letter-spacing: .1rem;
+	text-transform: uppercase;
+}
+
+.comment .meta__comment__date {
+
+}
+
+.comment__content {
+	font-size: 2.1rem;
+}
+
+
 /* Helpers */
 
