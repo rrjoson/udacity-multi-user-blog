@@ -41,7 +41,7 @@
 		    </p>
 		</div>
 
-		{% if user %}
+		{% if user and user.key().id() == c.user_id %}
 			<a href="/{{post.key().id()}}/{{c.user_id}}/{{ c.key().id() }}/deletecomment">
 				<button class="button-outline">Delete</button>
 			</a>
