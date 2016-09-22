@@ -2,6 +2,22 @@
 
 {% block content %}
   
-    <p>This is the registration page</p>
+    <div class="signup">
+        <h5 class="signup__header">Create Your Account</h5>
+        <p class="signup__message">{{error}}</p>
+        <div class="signup__form">
+            <form method="post">
+                <input class="form__input" placeholder="Username" type="text" name="username" value="{{username}}">
+                <input class="form__input" placeholder="Password" type="password" name="password" value="">
+                <input class="form__input" placeholder="Repeat Password" type="password" name="verify" value="">
+                <input class="form__input" placeholder="Email" type="text" name="email" value="{{email}}">
+                <input class="form__submit" type="submit" value="signup">
+            </form>
+        </div>
+        <div class="signup__terms">
+            <span>By signing up, you agree to our </span><a href="">Terms & Conditions</a>.
+        </div>
+    </div>
+
   
 {% endblock %}
