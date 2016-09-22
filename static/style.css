@@ -57,6 +57,7 @@
 	padding-bottom: 7.5rem;
 }
 
+
 /* Signup Page */
 
 .signup {
@@ -88,14 +89,55 @@
 	padding-bottom: 1rem;
 }
 
-.form__input {
+.signup .form__input {
 	
 }
 
-.form__submit {
+.signup .form__submit {
+	margin-top: .5rem;
 	width: 100%;
 }
 
+
+/* Login Page */
+
+.login {
+	max-width: 36rem;
+	margin: 0 auto;
+	background-color: #f4f5f6;
+	border: .1rem solid #d1d1d1;
+	padding: 3rem;
+	border-radius: 2rem;
+}
+
+.login__header {
+	font-weight: bold;
+	color: #9b4dca;
+	margin-bottom: 2rem;
+	text-align: center;
+}
+
+.login__message {
+	text-align: center;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+.login__footer {
+	font-weight: 300;
+	color: #A3AFAB;
+	text-align: center;
+	padding-bottom: 1rem;
+}
+
+.login .form__input {
+	
+}
+
+.login .form__submit {
+	margin-top: .5rem;
+	width: 100%;
+}
 
 
 /* Helpers */

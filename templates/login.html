@@ -2,6 +2,20 @@
 
 {% block content %}
   
-    <p>This is the login page</p>
+    <div class="login">
+        <h5 class="login__header">Login</h5>
+        <p class="login__message">{{error}}</p>
+        <div class="login__form">
+            <form method="post">
+                <input class="form__input" placeholder="Username" type="text" name="username" value="{{username}}">
+                <input class="form__input" placeholder="Password" type="password" name="password" value="">
+                <input class="form__submit" type="submit" value="login">
+            </form>
+        </div>
+        <div class="login__footer">
+			<a href="">Forgot your password?</a>
+        </div>
+    </div>
+
   
 {% endblock %}
