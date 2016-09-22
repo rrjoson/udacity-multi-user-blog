@@ -38,6 +38,9 @@ def render_str(template, **params):
     t = jinja_env.get_template(template)
     return t.render(params)
 
+def users_key(group='default'):
+    return db.Key.from_path('users', group)
+
 
 # Validation
 
@@ -55,6 +58,63 @@ def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
 
+# Authentication
+
+secret = 'fart'
+
+def make_pw_hash(name, password, salt=None):
+    if not salt:
+        salt = make_salt()
+    h = hashlib.sha256(name + password + salt).hexdigest()
+    return '%s,%s' % (salt, h)
+
+def make_salt(length=5):
+    return ''.join(random.choice(letters) for x in xrange(length))
+
+def valid_pw(name, password, h):
+    salt = h.split(',')[0]
+    return h == make_pw_hash(name, password, salt)
+
+def make_secure_val(val):
+    return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
+
+def check_secure_val(secure_val):
+    val = secure_val.split('|')[0]
+    if secure_val == make_secure_val(val):
+        return val
+
+
+# Models
+
+class User(db.Model):
+    name = db.StringProperty(required=True)
+    pw_hash = db.StringProperty(required=True)
+    email = db.StringProperty()
+
+    @classmethod
+    def register(cls, name, pw, email=None):
+        pw_hash = make_pw_hash(name, pw)
+        return User(parent=users_key(),
+                    name=name,
+                    pw_hash=pw_hash,
+                    email=email)
+
+    @classmethod
+    def login(cls, username, password):
+        u = User.by_name(username)
+        if u and valid_pw(username, password, u.pw_hash):
+            return u
+
+    @classmethod
+    def by_id(cls, uid):
+        return User.get_by_id(uid, parent=users_key())
+
+    @classmethod
+    def by_name(cls, name):
+        u = User.all().filter('name =', name).get()
+        return u
+
+
 # Handlers
 
 class BlogHandler(webapp2.RequestHandler):
@@ -63,10 +123,34 @@ class BlogHandler(webapp2.RequestHandler):
         self.response.out.write(*a, **kw)
 
     def render_str(self, template, **params):
+        params['user'] = self.user
         return render_str(template, **params)
 
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
+
+    def login(self, user):
+        self.set_secure_cookie('user_id', str(user.key().id()))
+
+    def logout(self):
+        self.response.headers.add_header(
+            'Set-Cookie',
+            'user_id=; Path=/')
+
+    def set_secure_cookie(self, name, val):
+        cookie_val = make_secure_val(val)
+        self.response.headers.add_header(
+            'Set-Cookie',
+            '%s=%s; Path=/' % (name, cookie_val))
+
+    def initialize(self, *a, **kw):
+        webapp2.RequestHandler.initialize(self, *a, **kw)
+        uid = self.read_secure_cookie('user_id')
+        self.user = uid and User.by_id(int(uid))
+
+    def read_secure_cookie(self, name):
+        cookie_val = self.request.cookies.get(name)
+        return cookie_val and check_secure_val(cookie_val)
 
 
 class BlogFrontHandler(BlogHandler):
@@ -75,6 +159,20 @@ class BlogFrontHandler(BlogHandler):
         self.render('base.html')
 
 class SignupHandler(BlogHandler):
+
+    def done(self):
+        u = User.by_name(self.username)
+
+        if u:
+            error = 'That user already exists.'
+            self.render('signup.html', error=error)
+
+        else:
+            u = User.register(self.username, self.password, self.email)
+            u.put()
+
+            self.login(u)
+            self.redirect('/')
 
     def get(self):
         self.render('signup.html')
@@ -105,13 +203,31 @@ class SignupHandler(BlogHandler):
             params['error'] = "That's not a valid email."
             return self.render('signup.html', **params)
 
-        self.write("Welcome!")
+        self.done()
 
 
 class LoginHandler(BlogHandler):
 
     def get(self):
         self.render('login.html')
+
+    def post(self):
+        username = self.request.get('username')
+        password = self.request.get('password')
+
+        u = User.login(username, password)
+        if u:
+            self.login(u)
+            self.redirect('/')
+        else:
+            error = 'Invalid Username or Password'
+            self.render('login.html', error=error)
+
+class LogoutHandler(BlogHandler):
+
+    def get(self):
+        self.logout()
+        self.redirect('/')
 
 
 # Routing
@@ -120,4 +236,5 @@ app = webapp2.WSGIApplication([
     ('/', BlogFrontHandler),
     ('/signup', SignupHandler),
     ('/login', LoginHandler),
+    ('/logout', LogoutHandler)
 ], debug=True)

@@ -20,12 +20,18 @@
 					<h1 class="title__text">Udacity Blog</h1>
 				</a>
 				<ul class="navigation__list">
-					<li class="list__item">
-						<a href="/signup" class="list__item__link">Signup</a>
-					</li>
-					<li class="list__item">
-						<a href="/login" class="list__item__link">Login</a>
-					</li>
+					{% if user %}
+						<li class="list__item">
+							<a href="/logout" class="list__item__link">Logout</a>
+						</li>
+					{% else %}
+						<li class="list__item">
+							<a href="/signup" class="list__item__link">Signup</a>
+						</li>
+						<li class="list__item">
+							<a href="/login" class="list__item__link">Login</a>
+						</li>
+					{% endif %}
 				</ul>
 			</div>
 		</nav>
