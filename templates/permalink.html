@@ -10,7 +10,7 @@
 	{% endif %}
 
 	{% if user and user.key().id() == post.user_id %}
-		<a href="/delete/{{post.key().id()}}/{{post.user_id}}">
+		<a href="/{{post.key().id()}}/delete/{{post.user_id}}">
 			<button class="button-outline">Delete</button>
 		</a>
 		<a href="/{{post.key().id()}}/edit">
