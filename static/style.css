@@ -154,14 +154,17 @@
 	font-size: 4rem;
 	font-weight: 700;
 	border: none;
-	padding: 0;
-	margin-bottom: 1rem;
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	padding-left: 0;
+	margin-bottom: 0;
 }
 
 .newpost .form__textarea {
 	min-height: 50rem;
 	border: none;
-	padding: 0;
+	padding-left: 0;
+	font-size: 2.1rem;
 }
 
 .newpost .form__input:focus,
@@ -170,6 +173,74 @@
 }
 
 .newpost .form__submit {
+
+}
+
+.newpost .form__message {
+    font-weight: 300;
+    margin-left: 1rem;
+}
+
+
+/* Post template */
+
+.post {
+
+}
+
+.post__meta {
+	margin-bottom: 2rem;
+}
+
+.post .meta__author {
+	width: 5rem;
+	height: 5rem;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.post .meta__author__image {
+	width: auto;
+	height: 100%;
+}
+
+.post .meta__post {
+	vertical-align: middle;
+	display: inline-block;
+	padding-left: 1.5rem;
+}
+
+.post .meta__post__author {
+	font-weight: 600;
+}
+
+.post .meta__post__date {
+
+}
+
+.post__title {
+	font-size: 4rem;
+	font-weight: 700;
+}
+
+.post__content {
+	font-size: 2.1rem;
+}
+
+.post__like {
+
+}
+
+.post .like__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	vertical-align: middle;
+}
+
+.post .like__count {
+	font-size: 2rem;
+	vertical-align: middle;
+	margin-left: 0.5rem;
 
 }
 

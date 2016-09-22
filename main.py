@@ -38,8 +38,14 @@ def render_str(template, **params):
     t = jinja_env.get_template(template)
     return t.render(params)
 
+
+# Model keys
+
 def users_key(group='default'):
     return db.Key.from_path('users', group)
+
+def blog_key(name='default'):
+    return db.Key.from_path('blogs', name)
 
 
 # Validation
@@ -114,6 +120,31 @@ class User(db.Model):
         u = User.all().filter('name =', name).get()
         return u
 
+class Post(db.Model):
+    subject = db.StringProperty(required=True)
+    content = db.TextProperty(required=True)
+    user_id = db.IntegerProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
+    likes = db.IntegerProperty(default=0)
+
+    def render(self, current_user_id):
+        key = db.Key.from_path('User', int(self.user_id), parent=users_key())
+        user = db.get(key)
+
+        self._render_text = self.content.replace('\n', '<br>')
+        return render_str("post.html", p=self, current_user_id=current_user_id, author=user.name)
+
+    @classmethod
+    def by_id(cls, uid):
+        return Post.get_by_id(uid, parent=blog_key())
+
+class Comment(db.Model):
+    content = db.TextProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
+    user_id = db.IntegerProperty(required=True)
+
 
 # Handlers
 
@@ -155,7 +186,10 @@ class BlogHandler(webapp2.RequestHandler):
 class BlogFrontHandler(BlogHandler):
 
     def get(self):
-        self.render('base.html')
+        posts = db.GqlQuery(
+            "select * from Post order by created desc limit 10")
+        
+        self.render('front.html', posts=posts)
 
 class SignupHandler(BlogHandler):
 
@@ -214,7 +248,7 @@ class LoginHandler(BlogHandler):
         password = self.request.get('password')
 
         u = User.login(username, password)
-        
+
         if u:
             self.login(u)
             self.redirect('/')
@@ -235,8 +269,36 @@ class NewPostHandler(BlogHandler):
             self.render("newpost.html")
         else:
             error = "You don't have permission to access this page"
-            self.render("base.html", error=error)
+            self.render("base.html", access_error=error)
 
+    def post(self):
+        subject = self.request.get('subject')
+        content = self.request.get('content')
+
+        if subject and content:
+            p = Post(parent=blog_key(), subject=subject,
+                     content=content, user_id=self.user.key().id())
+            p.put()
+            self.redirect('/%s' % str(p.key().id()))
+        else:
+            error = "Please fill up the fields."
+            self.render("newpost.html", subject=subject,
+                        content=content, error=error)
+
+class PostHandler(BlogHandler):
+
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        post = db.get(key)
+
+        comments = db.GqlQuery(
+            "select * from Comment where ancestor is :1 order by created desc limit 10", key)
+
+        if not post:
+            self.error(404)
+            return
+
+        self.render("permalink.html", post=post, comments=comments)
 
 
 # Routing
@@ -246,5 +308,6 @@ app = webapp2.WSGIApplication([
     ('/signup', SignupHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
-    ('/newpost', NewPostHandler)
+    ('/newpost', NewPostHandler),
+    ('/([0-9]+)', PostHandler),
 ], debug=True)
