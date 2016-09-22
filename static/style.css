@@ -30,8 +30,12 @@
 }
 
 .navigation__title .title__text {
-	font-size: 1.6rem;
 	display: inline;
+	font-size: 1.1rem;
+	font-weight: 700;
+	letter-spacing: .1rem;
+	text-transform: uppercase;
+	color: #9b4dca;
 }
 
 .navigation__list {
@@ -50,6 +54,11 @@
 .navigation__list .list__item__link {
 	line-height: 5.2rem;
 	text-decoration: none;
+	font-size: 1.1rem;
+	font-weight: 700;
+	letter-spacing: .1rem;
+	text-transform: uppercase;
+	color: #9b4dca;
 }
 
 .content {
@@ -211,7 +220,9 @@
 }
 
 .post .meta__post__author {
-	font-weight: 600;
+	font-weight: 700;
+	letter-spacing: .1rem;
+	text-transform: uppercase;
 }
 
 .post .meta__post__date {
