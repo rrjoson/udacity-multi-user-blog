@@ -39,16 +39,15 @@
 		    <p class="comment__content">
 		        {{ c.content }}
 		    </p>
+		    {% if user and user.key().id() == c.user_id %}
+		    	<a href="/{{post.key().id()}}/{{c.user_id}}/{{ c.key().id() }}/deletecomment">
+		    		<button class="button-outline">Delete</button>
+		    	</a>
+		    	<a href="/{{post.key().id()}}/{{c.user_id}}/{{ c.key().id() }}/editcomment">
+		    		<button class="button-outline">Edit</button>
+		    	</a>
+		    {% endif %}
 		</div>
-
-		{% if user and user.key().id() == c.user_id %}
-			<a href="/{{post.key().id()}}/{{c.user_id}}/{{ c.key().id() }}/deletecomment">
-				<button class="button-outline">Delete</button>
-			</a>
-			<a href="/{{post.key().id()}}/{{c.user_id}}/{{ c.key().id() }}/editcomment">
-				<button class="button-outline">Edit</button>
-			</a>
-		{% endif %}
 
 	{% endfor %}
 
