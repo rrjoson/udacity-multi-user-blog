@@ -2,7 +2,17 @@
 
 {% block content %}
   
-    <div>This is where you write your new post.</div>
+    <div class="newpost">
+        <div class="newpost__form">
+            <form method="post" autocomplete="off">
+                <input autofocus class="form__input" placeholder="Title" type="text" name="subject" value="{{subject}}">
+                <textarea class="form__textarea" placeholder="Tell your story..." type="text" name="content">{{content}}</textarea>
+                <input class="button-outline form__submit" type="submit" value="publish">
+            </form>
+
+
+        </div>
+    </div>
 
   
 {% endblock %}

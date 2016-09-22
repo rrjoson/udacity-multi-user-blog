@@ -142,3 +142,37 @@
 
 /* Helpers */
 
+.newpost {
+
+}
+
+.newpost__form {
+
+}
+
+.newpost .form__input {
+	font-size: 4rem;
+	font-weight: 700;
+	border: none;
+	padding: 0;
+	margin-bottom: 1rem;
+}
+
+.newpost .form__textarea {
+	min-height: 50rem;
+	border: none;
+	padding: 0;
+}
+
+.newpost .form__input:focus,
+.newpost .form__textarea:focus {
+	border: none;
+}
+
+.newpost .form__submit {
+
+}
+
+
+/* Helpers */
+
