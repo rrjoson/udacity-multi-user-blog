@@ -152,7 +152,6 @@ class BlogHandler(webapp2.RequestHandler):
         cookie_val = self.request.cookies.get(name)
         return cookie_val and check_secure_val(cookie_val)
 
-
 class BlogFrontHandler(BlogHandler):
 
     def get(self):
@@ -205,7 +204,6 @@ class SignupHandler(BlogHandler):
 
         self.done()
 
-
 class LoginHandler(BlogHandler):
 
     def get(self):
@@ -216,6 +214,7 @@ class LoginHandler(BlogHandler):
         password = self.request.get('password')
 
         u = User.login(username, password)
+        
         if u:
             self.login(u)
             self.redirect('/')
@@ -229,6 +228,16 @@ class LogoutHandler(BlogHandler):
         self.logout()
         self.redirect('/')
 
+class NewPostHandler(BlogHandler):
+
+    def get(self):
+        if self.user:
+            self.render("newpost.html")
+        else:
+            error = "You don't have permission to access this page"
+            self.render("base.html", error=error)
+
+
 
 # Routing
 
@@ -236,5 +245,6 @@ app = webapp2.WSGIApplication([
     ('/', BlogFrontHandler),
     ('/signup', SignupHandler),
     ('/login', LoginHandler),
-    ('/logout', LogoutHandler)
+    ('/logout', LogoutHandler),
+    ('/newpost', NewPostHandler)
 ], debug=True)
