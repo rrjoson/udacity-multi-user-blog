@@ -39,6 +39,22 @@ def render_str(template, **params):
     return t.render(params)
 
 
+# Validation
+
+USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+PASS_RE = re.compile(r"^.{3,20}$")
+EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
+
+def valid_username(username):
+    return username and USER_RE.match(username)
+
+def valid_password(password):
+    return password and PASS_RE.match(password)
+
+def valid_email(email):
+    return not email or EMAIL_RE.match(email)
+
+
 # Handlers
 
 class BlogHandler(webapp2.RequestHandler):
@@ -62,6 +78,35 @@ class SignupHandler(BlogHandler):
 
     def get(self):
         self.render('signup.html')
+
+    def post(self):
+        have_error = False
+        self.username = self.request.get('username')
+        self.password = self.request.get('password')
+        self.verify = self.request.get('verify')
+        self.email = self.request.get('email')
+
+        params = dict(username=self.username,
+                      email=self.email)
+
+        if not valid_username(self.username):
+            params['error'] = "That's not a valid username."
+            return self.render('signup.html', **params)
+
+        if not valid_password(self.password):
+            params['error'] = "That wasn't a valid password."
+            return self.render('signup.html', **params)
+
+        elif self.password != self.verify:
+            params['error'] = "Your passwords didn't match."
+            return self.render('signup.html', **params)
+
+        if not valid_email(self.email):
+            params['error'] = "That's not a valid email."
+            return self.render('signup.html', **params)
+
+        self.write("Welcome!")
+
 
 class LoginHandler(BlogHandler):
 
