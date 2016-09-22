@@ -428,6 +428,24 @@ class AddCommentHandler(BlogHandler):
 
         self.redirect('/' + post_id)
 
+class DeleteCommentHandler(BlogHandler):
+
+    def get(self, post_id, post_user_id, comment_id):
+
+        if self.user and self.user.key().id() == int(post_user_id):
+            postKey = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            key = db.Key.from_path('Comment', int(comment_id), parent=postKey)
+            comment = db.get(key)
+            comment.delete()
+
+            self.redirect('/' + post_id)
+
+        elif not self.user:
+            self.redirect('/login')
+
+        else:
+            self.write("You don't have permission to delete this comment.")
+
 
 # Routing
 
@@ -442,5 +460,6 @@ app = webapp2.WSGIApplication([
     ('/([0-9]+)/unlike', UnlikePostHandler),
     ('/([0-9]+)/edit', EditPostHandler),
     ('/([0-9]+)/delete/([0-9]+)', DeletePostHandler),
-    ('/([0-9]+)/addcomment/([0-9]+)', AddCommentHandler)
+    ('/([0-9]+)/addcomment/([0-9]+)', AddCommentHandler),
+    ('/([0-9]+)/([0-9]+)/deletecomment/([0-9]+)', DeleteCommentHandler)
 ], debug=True)
