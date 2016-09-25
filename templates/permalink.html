@@ -4,17 +4,20 @@
   
 	{% if user %}
 		{{post.render(user.key().id()) | safe}}
-		<br><br>
 	{% else %}
 		{{ post.render(None) | safe }}
 	{% endif %}
 
 	{% if user and user.key().id() == post.user_id %}
 		<a href="/{{post.key().id()}}/delete/{{post.user_id}}">
-			<button class="button-outline">Delete</button>
+			<div class="post__delete">
+				<img src="/static/images/rubbish-bin.svg" alt="" class="delete__icon">
+			</div>
 		</a>
 		<a href="/{{post.key().id()}}/edit">
-			<button class="button-outline">Edit</button>
+			<div class="post__edit">
+				<img src="/static/images/edit.svg" alt="" class="edit__icon">
+			</div>
 		</a>
 	{% elif user %}
 		<a href="/{{post.key().id()}}/like">
@@ -27,7 +30,9 @@
 
 	{% if user %}
 		<a href="/{{post.key().id()}}/addcomment/{{user.key().id()}}">
-			<button class="button-outline">Add Comment</button>
+			<div class="post__comment">
+				<img src="/static/images/comment-bubble.svg" alt="" class="comment__icon">
+			</div>
 		</a>
 	{% endif %}
 

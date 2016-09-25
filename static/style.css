@@ -235,11 +235,13 @@
 /* Post template */
 
 .post {
-
+	margin-bottom: 2.0rem;
 }
 
 .post__meta {
 	margin-bottom: 2rem;
+	clear: both;
+	position: relative;
 }
 
 .post .meta__author {
@@ -280,7 +282,8 @@
 }
 
 .post__like {
-
+	float: left;
+	margin-bottom: 4rem;
 }
 
 .post .like__icon {
@@ -295,6 +298,44 @@
 	margin-left: 0.5rem;
 }
 
+.post__edit {
+	display: inline-block;
+	margin-left: 2rem;
+
+}
+
+.post__edit .edit__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	vertical-align: middle;
+}
+
+.post__delete {
+	display: inline-block;
+	margin-left: 2rem;
+	padding-left: 2rem;
+	border-left: .1rem solid #d1d1d1;
+
+}
+
+.post__delete .delete__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	vertical-align: middle;
+}
+
+.post__comment {
+	display: inline-block;
+	margin-left: 2rem;
+
+}
+
+.post__comment .comment__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	vertical-align: middle;
+}
+
 
 /* Comment template */
 
@@ -305,6 +346,7 @@
 }
 
 .comment__header {
+	margin-top: 4.0rem;
 	margin-left: 2.0rem;
 }
 
