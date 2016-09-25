@@ -8,6 +8,10 @@ Clone this repo to your desktop, go to its root directory and run:
 dev_appserver.py .
 ```
 
+Or you could try out the app here:
+
+[http://fsnd-rrjoson-blog.appspot.com/](Udacity Blog)
+
 ## Release History
 * 0.1.0 - Initial release
 
