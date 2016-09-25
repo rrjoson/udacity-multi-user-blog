@@ -337,7 +337,11 @@
 }
 
 
-/* Comment template */
+/* Comments */
+
+.comments {
+	margin-top: 6rem;
+}
 
 .comment {
 	border: .1rem solid #d1d1d1;
