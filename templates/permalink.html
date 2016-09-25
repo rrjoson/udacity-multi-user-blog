@@ -25,6 +25,14 @@
 		</a>
 	{% endif %}
 
+	{% if user %}
+		<a href="/{{post.key().id()}}/addcomment/{{user.key().id()}}">
+			<button class="button-outline">Add Comment</button>
+		</a>
+	{% endif %}
+
+	<h5 class="comment__header">Responses</h5>
+
 	{% for c in comments %}
 		<div class="comment">
 		    <div class="comment__meta">
@@ -39,23 +47,22 @@
 		    <p class="comment__content">
 		        {{ c.content }}
 		    </p>
-		    {% if user and user.key().id() == c.user_id %}
-		    	<a href="/{{post.key().id()}}/{{c.user_id}}/deletecomment/{{ c.key().id() }}">
-		    		<button class="button-outline">Delete</button>
-		    	</a>
-		    	<a href="/{{post.key().id()}}/{{c.user_id}}/editcomment/{{ c.key().id() }}">
-		    		<button class="button-outline">Edit</button>
-		    	</a>
-		    {% endif %}
+		    <div class="clearfix">
+			    {% if user and user.key().id() == c.user_id %}
+			    	<a href="/{{post.key().id()}}/{{c.user_id}}/deletecomment/{{ c.key().id() }}">
+			    		<div class="comment__delete">
+			    			<img src="/static/images/rubbish-bin.svg" alt="" class="delete__icon">
+			    		</div>
+			    	</a>
+			    	<a href="/{{post.key().id()}}/{{c.user_id}}/editcomment/{{ c.key().id() }}">
+			    		<div class="comment__edit">
+			    			<img src="/static/images/edit.svg" alt="" class="edit__icon">
+			    		</div>
+			    	</a>
+			    {% endif %}
+		    </div>
 		</div>
-
 	{% endfor %}
-
-	{% if user %}
-		<a href="/{{post.key().id()}}/addcomment/{{user.key().id()}}">
-			<button class="button-outline">Add Comment</button>
-		</a>
-	{% endif %}
 
   
 {% endblock %}
