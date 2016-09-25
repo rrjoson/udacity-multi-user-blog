@@ -417,7 +417,10 @@ class UnlikePostHandler(BlogHandler):
 class AddCommentHandler(BlogHandler):
 
     def get(self, post_id, user_id):
-        self.render("addcomment.html")
+        if not self.user:
+            self.render('/login')
+        else:
+            self.render("addcomment.html")
 
     def post(self, post_id, user_id):
         content = self.request.get('content')
