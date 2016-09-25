@@ -150,6 +150,7 @@ class Comment(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
     user_id = db.IntegerProperty(required=True)
+    user_name = db.TextProperty(required=True)
 
 
 # Handlers
@@ -421,9 +422,10 @@ class AddCommentHandler(BlogHandler):
     def post(self, post_id, user_id):
         content = self.request.get('content')
 
+        user_name = self.user.name
         key = db.Key.from_path('Post', int(post_id), parent=blog_key())
 
-        c = Comment(parent=key, user_id=int(user_id), content=content)
+        c = Comment(parent=key, user_id=int(user_id), content=content, user_name=user_name)
         c.put()
 
         self.redirect('/' + post_id)
