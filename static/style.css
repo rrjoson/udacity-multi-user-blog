@@ -1,5 +1,7 @@
 /* General */
 
+
+
 /* Base Template */
 
 .wrapper .container {
@@ -431,7 +433,6 @@
 
 .footer {
 	margin-bottom: 2rem;
-	text-align: center;
 }
 
 /* Helpers */
