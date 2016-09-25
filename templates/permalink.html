@@ -20,11 +20,13 @@
 			</div>
 		</a>
 	{% elif user %}
-		<a href="/{{post.key().id()}}/like">
+<!-- 		<a href="/{{post.key().id()}}/like">
 			<button class="button-outline">Like</button>
-		</a>
+		</a> -->
 		<a href="/{{post.key().id()}}/unlike">
-			<button class="button-outline">Unlike</button>
+			<div class="post__dislike">
+				<img src="/static/images/dislike.svg" alt="" class="dislike__icon">
+			</div>
 		</a>
 	{% endif %}
 

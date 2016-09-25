@@ -336,6 +336,19 @@
 	vertical-align: middle;
 }
 
+.post__dislike {
+	display: inline-block;
+	margin-left: 2rem;
+	padding-left: 2rem;
+	border-left: .1rem solid #d1d1d1;
+}
+
+.post__dislike .dislike__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	vertical-align: middle;
+}
+
 
 /* Comments */
 

@@ -15,7 +15,9 @@
         {{p._render_text | safe}}
     </p>
     <div class="post__like">
-        <img class="like__icon" src="/static/images/like.svg" alt="">
+        <a href="/{{p.key().id()}}/like">
+            <img class="like__icon" src="/static/images/like.svg" alt="">
+        </a>
         <span class="like__count">{{p.likes}}</span>
     </div>
 </div>
