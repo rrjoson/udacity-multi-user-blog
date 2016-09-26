@@ -362,7 +362,14 @@ class DeletePostHandler(BlogHandler):
             self.redirect('/login')
 
         else:
-            self.write("You don't have permission to delete this post")
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+
+            comments = db.GqlQuery(
+                "select * from Comment where ancestor is :1 order by created desc limit 10", key)
+
+            error = "You don't have permission to delete this post"
+            self.render("permalink.html", post=post, comments=comments, error=error)
 
 class LikePostHandler(BlogHandler):
 
@@ -462,7 +469,7 @@ class EditCommentHandler(BlogHandler):
     def post(self, post_id, post_user_id, comment_id):
         if not self.user:
             return
-        
+
         content = self.request.get('content')
 
         postKey = db.Key.from_path('Post', int(post_id), parent=blog_key())
