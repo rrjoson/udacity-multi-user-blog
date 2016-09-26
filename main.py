@@ -28,15 +28,8 @@ from models.comment import Comment
 
 # Handlers
 from handlers.blog import BlogHandler
+from handlers.blogfront import BlogFrontHandler
 
-
-class BlogFrontHandler(BlogHandler):
-
-    def get(self):
-        posts = db.GqlQuery(
-            "select * from Post order by created desc limit 10")
-
-        self.render('front.html', posts=posts)
 
 class SignupHandler(BlogHandler):
 
