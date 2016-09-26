@@ -22,15 +22,9 @@ from google.appengine.ext import db
 # Models
 from models.user import User
 from models.post import Post
+from models.like import Like
 
 from helpers import *
-
-
-class Like(db.Model):
-    created = db.DateTimeProperty(auto_now_add=True)
-    last_modified = db.DateTimeProperty(auto_now=True)
-    user_id = db.IntegerProperty(required=True)
-    post_id = db.IntegerProperty(required=True)
 
 class Comment(db.Model):
     content = db.TextProperty(required=True)
