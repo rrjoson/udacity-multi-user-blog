@@ -386,9 +386,9 @@ class LikePostHandler(BlogHandler):
             user_id = self.user.key().id()
             post_id = post.key().id()
 
-            l = Like.all().filter('user_id =', user_id).filter('post_id =', post_id).get()
+            like = Like.all().filter('user_id =', user_id).filter('post_id =', post_id).get()
 
-            if l:
+            if like:
                 self.redirect('/' + str(post.key().id()))
 
             else:
