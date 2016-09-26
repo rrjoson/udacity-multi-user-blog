@@ -31,13 +31,8 @@ from handlers.blog import BlogHandler
 from handlers.blogfront import BlogFrontHandler
 from handlers.signup import SignupHandler
 from handlers.login import LoginHandler
+from handlers.logout import LogoutHandler
 
-
-class LogoutHandler(BlogHandler):
-
-    def get(self):
-        self.logout()
-        self.redirect('/')
 
 class PostHandler(BlogHandler):
 
