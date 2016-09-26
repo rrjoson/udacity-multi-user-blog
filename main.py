@@ -468,22 +468,26 @@ class EditCommentHandler(BlogHandler):
             self.redirect('/login')
 
         else:
-            self.write("You don't have permission to delete this comment.")
+            self.write("You don't have permission to edit this comment.")
 
     def post(self, post_id, post_user_id, comment_id):
         if not self.user:
             return
 
-        content = self.request.get('content')
+        if self.user and self.user.key().id() == int(post_user_id):
+            content = self.request.get('content')
 
-        postKey = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        key = db.Key.from_path('Comment', int(comment_id), parent=postKey)
-        comment = db.get(key)
+            postKey = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            key = db.Key.from_path('Comment', int(comment_id), parent=postKey)
+            comment = db.get(key)
 
-        comment.content = content
-        comment.put()
+            comment.content = content
+            comment.put()
 
-        self.redirect('/' + post_id)
+            self.redirect('/' + post_id)
+
+        else:
+            self.write("You don't have permission to edit this comment.")
 
 class DeleteCommentHandler(BlogHandler):
 
