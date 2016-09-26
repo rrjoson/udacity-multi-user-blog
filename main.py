@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 
-import webapp2
-
-from helpers import *
+# General
+from webapp2 import WSGIApplication
 from google.appengine.ext import db
+from helpers import *
 
 
 # Models
@@ -46,7 +46,7 @@ from handlers.deletecomment import DeleteCommentHandler
 
 
 # Routing
-app = webapp2.WSGIApplication([
+app = WSGIApplication([
     ('/', BlogFrontHandler),
     ('/signup', SignupHandler),
     ('/login', LoginHandler),

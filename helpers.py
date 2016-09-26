@@ -4,9 +4,10 @@ import hmac
 import jinja2
 import hashlib
 import random
-from string import letters
 
+from string import letters
 from google.appengine.ext import db
+
 
 # Jinja configuration
 
