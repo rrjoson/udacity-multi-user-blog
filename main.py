@@ -20,11 +20,13 @@ import webapp2
 from helpers import *
 from google.appengine.ext import db
 
+
 # Models
 from models.user import User
 from models.post import Post
 from models.like import Like
 from models.comment import Comment
+
 
 # Handlers
 from handlers.blog import BlogHandler
@@ -40,28 +42,10 @@ from handlers.likepost import LikePostHandler
 from handlers.unlikepost import UnlikePostHandler
 from handlers.addcomment import AddCommentHandler
 from handlers.editcomment import EditCommentHandler
-
-class DeleteCommentHandler(BlogHandler):
-
-    def get(self, post_id, post_user_id, comment_id):
-
-        if self.user and self.user.key().id() == int(post_user_id):
-            postKey = db.Key.from_path('Post', int(post_id), parent=blog_key())
-            key = db.Key.from_path('Comment', int(comment_id), parent=postKey)
-            comment = db.get(key)
-            comment.delete()
-
-            self.redirect('/' + post_id)
-
-        elif not self.user:
-            self.redirect('/login')
-
-        else:
-            self.write("You don't have permission to delete this comment.")
+from handlers.deletecomment import DeleteCommentHandler
 
 
 # Routing
-
 app = webapp2.WSGIApplication([
     ('/', BlogFrontHandler),
     ('/signup', SignupHandler),
