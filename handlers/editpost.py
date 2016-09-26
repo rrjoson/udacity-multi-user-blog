@@ -19,6 +19,9 @@ class EditPostHandler(BlogHandler):
             self.write("You cannot edit this post becuase you are not the one who wrote this post.")
 
     def post(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        post = db.get(key)
+
         if not self.user:
             return self.redirect('/login')
 
