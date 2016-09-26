@@ -295,7 +295,7 @@ class NewPostHandler(BlogHandler):
 
     def post(self):
         if not self.user:
-            return
+            return self.redirect('/login')
 
         subject = self.request.get('subject')
         content = self.request.get('content')
@@ -328,7 +328,7 @@ class EditPostHandler(BlogHandler):
 
     def post(self, post_id):
         if not self.user:
-            return
+            return self.redirect('/login')
 
         subject = self.request.get('subject')
         content = self.request.get('content')
