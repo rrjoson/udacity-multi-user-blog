@@ -290,7 +290,7 @@ class NewPostHandler(BlogHandler):
         if self.user:
             self.render("newpost.html")
         else:
-            error = "You don't have permission to access this page"
+            error = "You must be signed in to create a post."
             self.render("base.html", access_error=error)
 
     def post(self):
