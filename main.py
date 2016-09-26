@@ -32,22 +32,11 @@ from handlers.blogfront import BlogFrontHandler
 from handlers.signup import SignupHandler
 from handlers.login import LoginHandler
 from handlers.logout import LogoutHandler
+from handlers.post import PostHandler
 
 
-class PostHandler(BlogHandler):
 
-    def get(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
 
-        comments = db.GqlQuery(
-            "select * from Comment where ancestor is :1 order by created desc limit 10", key)
-
-        if not post:
-            self.error(404)
-            return
-
-        self.render("permalink.html", post=post, comments=comments)
 
 class NewPostHandler(BlogHandler):
 
