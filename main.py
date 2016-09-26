@@ -294,6 +294,9 @@ class NewPostHandler(BlogHandler):
             self.render("base.html", access_error=error)
 
     def post(self):
+        if not self.user:
+            return
+
         subject = self.request.get('subject')
         content = self.request.get('content')
 
@@ -324,6 +327,9 @@ class EditPostHandler(BlogHandler):
             self.write("You cannot edit this post becuase you are not the one who wrote this post.")
 
     def post(self, post_id):
+        if not self.user:
+            return
+
         subject = self.request.get('subject')
         content = self.request.get('content')
 
@@ -424,6 +430,9 @@ class AddCommentHandler(BlogHandler):
             self.render("addcomment.html")
 
     def post(self, post_id, user_id):
+        if not self.user:
+            return
+
         content = self.request.get('content')
 
         user_name = self.user.name
@@ -451,6 +460,9 @@ class EditCommentHandler(BlogHandler):
             self.write("You don't have permission to delete this comment.")
 
     def post(self, post_id, post_user_id, comment_id):
+        if not self.user:
+            return
+        
         content = self.request.get('content')
 
         postKey = db.Key.from_path('Post', int(post_id), parent=blog_key())
