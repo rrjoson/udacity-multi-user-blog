@@ -10,7 +10,7 @@ dev_appserver.py .
 
 Or you could try out the app here:
 
-[http://fsnd-rrjoson-blog.appspot.com/](Udacity Blog)
+[Udacity Blog](http://fsnd-rrjoson-blog.appspot.com/)
 
 ## Release History
 * 0.1.0 - Initial release
